@@ -1,0 +1,50 @@
+openapi: 3.0.3
+info:
+  title: Checko API Proxy
+  description: Простой REST API для получения данных организаций с checko.ru
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000
+paths:
+  /api/company/inn/{inn}:
+    get:
+      summary: Получить организацию по ИНН
+      parameters:
+        - name: inn
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: '^\d{10}$|^\d{12}$'
+      responses:
+        '200':
+          description: Успешный ответ
+        '400':
+          description: Неверный ИНН
+        '502':
+          description: Ошибка upstream
+  /api/company/ogrn/{ogrn}:
+    get:
+      summary: Получить организацию по ОГРН
+      parameters:
+        - name: ogrn
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: '^\d{13}$|^\d{15}$'
+      responses:
+        '200':
+          description: Успешный ответ
+  /api/search:
+    get:
+      summary: Поиск организаций
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешный ответ
